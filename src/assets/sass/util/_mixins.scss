@@ -1,0 +1,304 @@
+@use "sass:math";
+// Responsive Mixins
+@mixin desktop-lg() {
+  @media (max-width: $desktop-lg) {
+    @content;
+  }
+}
+
+@mixin desktop-md() {
+  @media (max-width: $desktop-md) {
+    @content;
+  }
+}
+
+@mixin desktop-sm() {
+  @media (max-width: $desktop-sm) {
+    @content;
+  }
+}
+
+@mixin desktop-xs() {
+  @media (max-width: $desktop-xs) {
+    @content;
+  }
+}
+
+@mixin tablet-lg() {
+  @media (max-width: $tablet-lg) {
+    @content;
+  }
+}
+
+@mixin tablet-md() {
+  @media (max-width: $tablet-md) {
+    @content;
+  }
+}
+
+@mixin tablet-sm() {
+  @media (max-width: $tablet-sm) {
+    @content;
+  }
+}
+
+@mixin mobile-lg() {
+  @media (max-width: $mobile-lg) {
+    @content;
+  }
+}
+
+@mixin mobile-md() {
+  @media (max-width: $mobile-md) {
+    @content;
+  }
+}
+
+@mixin mobile-sm() {
+  @media (max-width: $mobile-sm) {
+    @content;
+  }
+}
+
+@mixin mobile-landscape() {
+  @media (orientation: landscape) and (max-height: 580px) and (max-width: 820px) {
+    @content;
+  }
+}
+
+@mixin below($value) {
+  @media (max-width: $value) {
+    @content;
+  }
+}
+
+@mixin above($value) {
+  @media (min-width: $value) {
+    @content;
+  }
+}
+
+/** Font Face
+* @include font-face('SegoeUI', 'Regular', 400, 'normal');
+* @include font-face('SegoeUI', 'Bold', 600, 'normal');
+*/
+
+@mixin font-face($variant, $type, $weight, $style) {
+  $font-full-path: "#{$mainlink-font-path}/#{$variant}/#{$variant}";
+
+  @font-face {
+    font-family: "#{$variant}";
+    src: url("#{$font-full-path}-#{$type}.eot");
+    src: local("#{$variant} #{$type}"), local("#{$variant}-#{$type}"),
+      url("#{$font-full-path}-#{$type}.eot?#iefix") format("embedded-opentype"),
+      url("#{$font-full-path}-#{$type}.woff2") format("woff2"),
+      url("#{$font-full-path}-#{$type}.woff") format("woff"),
+      url("#{$font-full-path}-#{$type}.ttf") format("truetype"),
+      url("#{$font-full-path}-#{$type}.svg##{$variant}") format("svg");
+    font-weight: $weight;
+    font-style: $style;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "#{$variant}-#{$type}";
+    src: url("#{$font-full-path}-#{$type}.eot");
+    src: local("#{$variant} #{$type}"), local("#{$variant}-#{$type}"),
+      url("#{$font-full-path}-#{$type}.eot?#iefix") format("embedded-opentype"),
+      url("#{$font-full-path}-#{$type}.woff2") format("woff2"),
+      url("#{$font-full-path}-#{$type}.woff") format("woff"),
+      url("#{$font-full-path}-#{$type}.ttf") format("truetype"),
+      url("#{$font-full-path}-#{$type}.svg##{$variant}") format("svg");
+    font-display: swap;
+  }
+}
+
+/**
+* PX to REM Mixins
+* @include toRem(20px)
+*/
+
+@function toRem($value) {
+  $remValue: math.div($value, 16) + toRem;
+  @return $remValue;
+}
+
+/**
+* Pseudo
+* div::after {
+*    @include pseudo;
+* }
+*/
+
+@mixin pseudo($display: block, $pos: absolute, $content: "") {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+/**
+* Responsive ratio
+* .wrap {
+*    @include responsive-ratio(16,9);
+* }
+*/
+@mixin responsive-ratio($x, $y, $pseudo: false) {
+  $padding: unquote(($y / $x) * 100 + "%");
+
+  @if $pseudo {
+    &:before {
+      @include pseudo($pos: relative);
+      width: 100%;
+      padding-top: $padding;
+    }
+  } @else {
+    padding-top: $padding;
+  }
+}
+
+/**
+* Placeholders
+* input,  
+* textarea {  
+*    @include input-placeholder {
+*        color: $grey;
+*    }
+* }
+*/
+@mixin input-placeholder {
+  &.placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+
+  &::-webkit-input-placeholder {
+    @content;
+  }
+}
+
+/**
+* Truncate - Ellipsis
+* @include truncate(100px);
+*/
+@mixin truncate($truncation-boundary) {
+  max-width: $truncation-boundary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/**
+* Center flex
+* @include flex;
+*/
+@mixin flex($x: center, $y: center) {
+  display: flex;
+  align-items: $x;
+  justify-content: $y;
+}
+
+/**
+* Transition
+* @include transition(height, 0.2s, linear);
+*/
+
+@mixin transition($prop, $time, $easing: linear, $delay: 0s) {
+  $transition: ();
+
+  @for $i from 1 through length($prop) {
+    @for $j from 0 to (length($prop)) - (length($time)) {
+      $time: join($time, nth($time, -1));
+    }
+
+    @for $j from 0 to (length($prop)) - (length($easing)) {
+      $easing: join($easing, nth($easing, -1));
+    }
+
+    @for $j from 0 to (length($prop)) - (length($delay)) {
+      $delay: join($delay, nth($delay, -1));
+    }
+
+    $transition: append(
+      $transition,
+      (nth($prop, $i) nth($time, $i) nth($easing, $i) nth($delay, $i)),
+      $separator: comma
+    );
+  }
+
+  transition: $transition;
+}
+
+/**
+* Max Lines
+* @inclue max-lines(3);
+*/
+
+@mixin max-lines($lines) {
+  display: -webkit-box;
+  max-width: 100%;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/**
+* Overflow X scroll 
+* @include scroll;
+*/
+@mixin scroll() {
+  display: flex;
+  justify-content: flex-start;
+  transform: none !important;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-appearance: none;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+  }
+}
+
+/**
+* Hide scrollBar
+* @include hideScroll;
+*/
+@mixin hideScroll() {
+  -webkit-appearance: none;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+  }
+}
+
+/****  rotate
+
+@include rotate(-45deg);
+*/
+@mixin rotate($degrees) {
+  -webkit-transform: rotate($degrees);
+  -moz-transform: rotate($degrees);
+  -ms-transform: rotate($degrees);
+  -o-transform: rotate($degrees);
+  transform: rotate($degrees);
+}

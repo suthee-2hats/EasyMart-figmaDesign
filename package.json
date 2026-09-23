@@ -1,0 +1,49 @@
+{
+  "name": "easymart",
+  "version": "1.0.0",
+  "description": "project description",
+  "author": "Sutheerth",
+  "license": "MIT",
+  "homepage": "http://sitename.com",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "start": "cross-env NODE_OPTIONS=--no-deprecation gulp",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation gulp serve",
+    "prod": "cross-env NODE_ENV=prod NODE_OPTIONS=--no-deprecation gulp",
+    "deploy": "npm run prod && gh-pages -d dist"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.4.1",
+    "browser-sync": "^2.26.3",
+    "cross-env": "^7.0.2",
+    "gulp": "^4.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-format-html": "^1.2.5",
+    "gulp-html-partial": "^1.0.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-include": "^2.4.1",
+    "gulp-js-import": "^1.0.6",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify": "^3.0.2",
+    "gulp-webp": "^4.0.0",
+    "sass": "^1.50.0"
+  },
+  "bugs": {
+    "url": "https://github.com/hatslogic/wp-gulp-starter-theme.git"
+  },
+  "main": "gulpfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [
+    "nothing"
+  ]
+}

@@ -1,0 +1,42 @@
+// Input Fields
+
+/*
+ * Default
+*/
+.form-control {
+    border       : toRem(1) solid var(--c-white);
+    border-radius: toRem(0);
+    padding      : toRem(3) toRem(7);
+    margin-top: toRem(12);
+    outline: none;
+    font-size: toRem(12);
+
+    @include input-placeholder {
+        color:  var(--c-black);
+    }
+
+    &:focus {
+        box-shadow  : none;
+        border-color: var(--c-black);
+    }
+
+    .disbled {
+        background-color: #f1f1f1;
+    }
+
+}
+select{
+    width: 100%;
+    border       : toRem(1) solid var(--c-white);
+    padding      : 0 toRem(7);
+    border-radius: toRem(0);
+    outline: none; 
+    margin-top: toRem(12); 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: toRem(12);
+    background:var(--c-white) url(../../../assets/img/favicon/favicon.svg) no-repeat center right;
+    background-size: 24px auto;
+}
+ 

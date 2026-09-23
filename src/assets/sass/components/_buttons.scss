@@ -1,0 +1,14 @@
+.btn{
+    &.with-icon{
+        font-size: 1.75rem;
+        line-height: 1;
+    }
+    &.btn-primary{
+        background-color: var(--c-primary);
+        border-color: var(--c-primary);
+    }
+    &.btn-secondary{
+        background-color: var(--c-secondary);
+        border-color: var(--c-secondary);
+    }
+}

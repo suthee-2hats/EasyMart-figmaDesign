@@ -1,0 +1,13 @@
+.hero{
+    
+    .row{
+        max-width: 100%;
+    }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    @include mobile-lg(){
+        display: none;
+    }
+}

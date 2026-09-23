@@ -1,0 +1,11 @@
+.footer{
+    width: 100%;
+}
+
+.social-icons{
+    li{
+        &+ li{
+            margin-left: 15px;
+        }
+    }
+}
