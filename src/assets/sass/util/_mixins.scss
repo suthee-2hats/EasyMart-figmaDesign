@@ -1,5 +1,9 @@
 @use "sass:math";
-// Responsive Mixins
+
+@function toRem($value) {
+  @return math.div($value, 16) * 1rem;
+}
+
 @mixin desktop-lg() {
   @media (max-width: $desktop-lg) {
     @content;
@@ -59,25 +63,6 @@
     @content;
   }
 }
-
-@mixin mobile-landscape() {
-  @media (orientation: landscape) and (max-height: 580px) and (max-width: 820px) {
-    @content;
-  }
-}
-
-@mixin below($value) {
-  @media (max-width: $value) {
-    @content;
-  }
-}
-
-@mixin above($value) {
-  @media (min-width: $value) {
-    @content;
-  }
-}
-
 /** Font Face
 * @include font-face('SegoeUI', 'Regular', 400, 'normal');
 * @include font-face('SegoeUI', 'Bold', 600, 'normal');
@@ -119,8 +104,7 @@
 */
 
 @function toRem($value) {
-  $remValue: math.div($value, 16) + toRem;
-  @return $remValue;
+  @return math.div($value, 16) * 1rem;
 }
 
 /**

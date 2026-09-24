@@ -1,20 +1,17 @@
-/*------------------*
-# Variables
-*------------------*/
 
-// Breakpoints
-$desktop-lg: toRem(1919); // Wide Desktop Screens (Above 1680 - Large Screens)
-$desktop-md: toRem(1620); // Medium Desktop Screens (Like 1480 - Macbook & Macbook Pro)
-$desktop-sm: toRem(1420); // Small Desktop Screens
-$desktop-xs: toRem(1360); // Small Desktop Screens
 
-$tablet-lg: toRem(1080); // Landscape Tablet
-$tablet-md: toRem(991); // Portrait Medium Tablet
-$tablet-sm: toRem(865); // Portrait Tablet
+$desktop-lg: toRem(1919);
+$desktop-md: toRem(1620);
+$desktop-sm: toRem(1420);
+$desktop-xs: toRem(1360);
 
-$mobile-lg: toRem(767); // Mobile Landscale
-$mobile-md: toRem(576); // Mobile Medium Portrait
-$mobile-sm: toRem(540); // Mobile Portrait
+$tablet-lg: toRem(1080);
+$tablet-md: toRem(991);
+$tablet-sm: toRem(865);
+
+$mobile-lg: toRem(767);
+$mobile-md: toRem(576);
+$mobile-sm: toRem(540);
 
 /*
 * Paths
@@ -38,14 +35,21 @@ $font-bold: "SFProText-BoldItalic";
 
 // Theme colours
 :root {
-    --c-primary: #e86a92;
+    --c-primary:#B6349A;
     --c-secondary: #2b2d42;
     --c-black: #000000;
     --c-white: #ffffff;
+    --primary-pink : #FEF5FD;
+
+
     --bs-primary: var(--c-primary);
     --bs-secondary: var(--c-secondary);
     --swiper-navigation-size: 30px;
     --swiper-theme-color: var(--c-black);
     --swiper-navigation-color: var(--c-black);
     --swiper-pagination-color: var(--c-black);
+
+    
 }
+
+$header_text-color: #3E3B3F;

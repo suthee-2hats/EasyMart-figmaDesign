@@ -19,37 +19,11 @@ body {
   font-family: $font-regular;
   font-size: 14px;
   min-height: 100%;
+  width: auto;
   letter-spacing: -1%;
+  margin: 0;
 }
 
-.container {
-  padding-left: toRem(15);
-  padding-right: toRem(15);
-  margin: auto;  
-  
-  max-width: toRem(1236);
-  @include desktop-xs(){
-    max-width: toRem(1020); 
-  }
-  @include tablet-lg(){
-    max-width: toRem(916);
-  }
-  @include tablet-md(){
-    max-width: toRem(800);
-  }
-  @include tablet-sm(){
-    max-width: toRem(800);
-  }
-  @include mobile-lg(){
-    max-width: toRem(780);
-  }
-  @include mobile-md(){
-    max-width: toRem(780);
-  }
-  @include mobile-sm(){
-    max-width: toRem(780);
-  }  
-}
 
 a,
 .btn,
@@ -63,4 +37,9 @@ a{
   &:hover, &:focus{
     color: var(--c-secondary);
   }
+}
+
+
+.card{
+  width: 50%;
 }
