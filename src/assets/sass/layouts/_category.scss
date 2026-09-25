@@ -19,7 +19,7 @@
         gap: 4px;
 
         flex: 0 0 auto;
-        width: 88px;
+        width: auto;
         height: 40px;
         padding: 8px 16px;
 
@@ -72,5 +72,6 @@
     &__name {
         white-space: nowrap;
         font-size: 14px;
+        font-weight: 500;
     }
 }
