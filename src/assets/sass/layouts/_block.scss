@@ -1,1 +1,11 @@
- 
+.page-layout {
+    width: 100%;
+
+    display: flex;
+    align-items: stretch;
+}
+
+.page-content {
+    flex: 1;
+    min-width: 0;
+}
