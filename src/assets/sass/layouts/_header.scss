@@ -474,9 +474,10 @@
     .header-item-left {
         display: none;
     }
-    form{
+
+    .header-search {
         display: none;
-    };
+    }
 
     .header-inner {
         flex-wrap: wrap;
@@ -495,11 +496,6 @@
         order: 1;
         flex: 1;
         justify-content: center;
-    }
-
-    .header-search {
-        order: 3;
-        flex-basis: 100%;
     }
 
     .header-cart {
