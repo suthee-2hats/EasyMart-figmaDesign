@@ -2,10 +2,6 @@ const productSection = document.querySelector(".product-section");
 
 if (productSection) {
     const productTrack = productSection.querySelector(".product-section__track");
-    const productViewport = productSection.querySelector(".product-section__viewport");
-    const previousButton = productSection.querySelector('[data-direction="prev"]');
-    const nextButton = productSection.querySelector('[data-direction="next"]');
-    const heading = productSection.querySelector(".product-section__title");
     const categoryList = document.querySelector(".category-list");
 
     const API_BASE = "https://dummyapi.codesmash.in/api/products/category";
@@ -16,51 +12,78 @@ if (productSection) {
     status.setAttribute("aria-live", "polite");
     productSection.appendChild(status);
 
-    let currentIndex = 0;
-    let currentSlug = null;
-
-    // Guards against a slow response overwriting a newer one
+    // Incremented per request so a slow response cannot overwrite a newer group
     let requestId = 0;
+    let lastSlug = null;
+
+    // One entry per category group, so each keeps its own header and scroll position
+    const groups = [];
 
     const formatPrice = (value) => `$${Number(value).toFixed(2)}`;
 
-    // Measured rather than hardcoded, because the card is fluid across breakpoints
-    const measure = () => {
-        const card = productTrack.querySelector(".product-card");
-        const gap = parseFloat(getComputedStyle(productTrack).columnGap) || 0;
+    // Measured, not hardcoded, because the card is fluid across breakpoints
+    const measure = (row) => {
+        const card = row.querySelector(".product-card");
+        const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
 
         return { cardWidth: card ? card.offsetWidth : 0, gap };
     };
 
-    const updateCarousel = () => {
-        const cards = productTrack.querySelectorAll(".product-card");
+    const getBounds = (ref) => {
+        const cards = ref.track.querySelectorAll(".product-card:not(.product-card--loading)");
 
         if (!cards.length) {
-            previousButton.disabled = true;
-            nextButton.disabled = true;
-            return;
+            return null;
         }
 
-        const { cardWidth, gap } = measure();
+        const { cardWidth, gap } = measure(ref.track);
 
         if (!cardWidth) {
+            return null;
+        }
+
+        const visibleCards = Math.max(1, Math.floor(ref.viewport.clientWidth / (cardWidth + gap)));
+
+        return { cardWidth, gap, count: cards.length, maxIndex: Math.max(0, cards.length - visibleCards) };
+    };
+
+    // Each group is clamped to its own end, so one short row cannot block another
+    const updateGroup = (ref) => {
+        const bounds = getBounds(ref);
+
+        if (!bounds) {
+            ref.previous.disabled = true;
+            ref.next.disabled = true;
             return;
         }
 
-        const visibleCards = Math.max(1, Math.floor(productViewport.clientWidth / (cardWidth + gap)));
-        const maxIndex = Math.max(0, cards.length - visibleCards);
+        const index = Math.min(Number(ref.track.dataset.index) || 0, bounds.maxIndex);
 
-        currentIndex = Math.min(currentIndex, maxIndex);
+        ref.track.dataset.index = String(index);
+        ref.track.style.transform = `translateX(-${index * (bounds.cardWidth + bounds.gap)}px)`;
 
-        productTrack.style.transform = `translateX(-${currentIndex * (cardWidth + gap)}px)`;
-
-        previousButton.disabled = currentIndex === 0;
-        nextButton.disabled = currentIndex >= maxIndex;
+        ref.previous.disabled = index === 0;
+        ref.next.disabled = index >= bounds.maxIndex;
     };
 
-    const resetCarousel = () => {
-        currentIndex = 0;
-        productTrack.style.transform = "";
+    const updateCarousel = () => {
+        groups.forEach(updateGroup);
+    };
+
+    const stepGroup = (ref, direction) => {
+        const bounds = getBounds(ref);
+
+        if (!bounds) {
+            return;
+        }
+
+        const index = Number(ref.track.dataset.index) || 0;
+
+        ref.track.dataset.index = String(
+            Math.max(0, Math.min(bounds.maxIndex, index + direction))
+        );
+
+        updateGroup(ref);
     };
 
     const createProductCard = (product) => {
@@ -98,7 +121,7 @@ if (productSection) {
         currentPrice.textContent = formatPrice(product.price || 0);
         price.appendChild(currentPrice);
 
-        // Struck-through figure is only meaningful when the product is discounted
+        // Struck-through figure only means something when the product is discounted
         const discount = Number(product.discountPercentage) || 0;
 
         if (discount > 0 && product.price) {
@@ -110,8 +133,9 @@ if (productSection) {
         const stock = document.createElement("div");
         stock.className = "product-card__stock";
 
-        const stockState = document.createElement("span");
         const remaining = Number(product.stock) || 0;
+
+        const stockState = document.createElement("span");
         stockState.textContent = remaining > 0 ? "In stock" : "Out of stock";
 
         const separator = document.createElement("span");
@@ -156,30 +180,70 @@ if (productSection) {
         return article;
     };
 
-    const clearTrack = () => {
-        productTrack.textContent = "";
+    const createControl = (direction, label) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "product-section__control";
+        button.dataset.direction = direction;
+        button.setAttribute("aria-label", label);
+
+        const glyph = document.createElement("span");
+        glyph.setAttribute("aria-hidden", "true");
+        glyph.textContent = direction === "prev" ? "\u2039" : "\u203a";
+
+        button.appendChild(glyph);
+
+        return button;
     };
 
-    const showLoading = (label) => {
-        clearTrack();
-        resetCarousel();
+    // Each category is a self-contained block: its own heading, its own
+    // prev/next controls, and its own scrolling row of cards.
+    const createGroup = (label) => {
+        const group = document.createElement("section");
+        group.className = "product-section__group";
 
-        for (let i = 0; i < 8; i++) {
-            productTrack.appendChild(createLoadingCard());
-        }
+        const header = document.createElement("div");
+        header.className = "product-section__header";
 
-        productSection.setAttribute("aria-busy", "true");
-        previousButton.disabled = true;
-        nextButton.disabled = true;
+        const heading = document.createElement("h2");
+        heading.className = "product-section__title";
+        heading.textContent = label;
 
-        status.textContent = `Loading ${label} products`;
+        const controls = document.createElement("div");
+        controls.className = "product-section__controls";
+        controls.setAttribute("aria-label", `${label} navigation`);
 
-        updateCarousel();
+        const previous = createControl("prev", `Previous ${label} products`);
+        const next = createControl("next", `Next ${label} products`);
+
+        controls.appendChild(previous);
+        controls.appendChild(next);
+
+        header.appendChild(heading);
+        header.appendChild(controls);
+
+        const viewport = document.createElement("div");
+        viewport.className = "product-section__viewport";
+
+        const track = document.createElement("div");
+        track.className = "product-section__group-track";
+        track.dataset.index = "0";
+
+        viewport.appendChild(track);
+
+        group.appendChild(header);
+        group.appendChild(viewport);
+
+        return { group, viewport, track, previous, next };
     };
 
-    const showMessage = (text, role) => {
-        clearTrack();
-        resetCarousel();
+    const fillRow = (row, cards) => {
+        row.textContent = "";
+        cards.forEach((card) => row.appendChild(card));
+    };
+
+    const showMessageIn = (row, text, role) => {
+        row.textContent = "";
 
         const message = document.createElement("div");
         message.className = "product-section__message";
@@ -192,42 +256,41 @@ if (productSection) {
         copy.textContent = text;
 
         message.appendChild(copy);
-        productTrack.appendChild(message);
-
-        productSection.setAttribute("aria-busy", "false");
-        previousButton.disabled = true;
-        nextButton.disabled = true;
-
-        status.textContent = text;
-
-        updateCarousel();
-    };
-
-    const renderProducts = (products, label) => {
-        clearTrack();
-
-        products.forEach((product) => {
-            productTrack.appendChild(createProductCard(product));
-        });
-
-        productSection.setAttribute("aria-busy", "false");
-        status.textContent = `Showing ${products.length} ${label} products`;
-
-        resetCarousel();
-        updateCarousel();
+        row.appendChild(message);
     };
 
     const loadCategory = (slug, label) => {
-        if (!slug) {
+        if (!slug || slug === lastSlug) {
             return;
         }
 
-        currentSlug = slug;
+        lastSlug = slug;
 
         const request = ++requestId;
 
-        heading.textContent = label;
-        showLoading(label);
+        // The static group is only a visual placeholder; its arrows are not
+        // wired up, so it goes as soon as a real category replaces it
+        const placeholder = productTrack.querySelector("[data-placeholder]");
+
+        if (placeholder) {
+            placeholder.remove();
+        }
+
+        // Appended, never cleared, so earlier categories stay on screen
+        const ref = createGroup(label);
+        groups.push(ref);
+        productTrack.appendChild(ref.group);
+
+        ref.group.setAttribute("aria-busy", "true");
+
+        for (let i = 0; i < 8; i++) {
+            ref.track.appendChild(createLoadingCard());
+        }
+
+        // No cards yet, so the controls start disabled while loading
+        updateGroup(ref);
+
+        status.textContent = `Loading ${label} products`;
 
         fetch(`${API_BASE}/${encodeURIComponent(slug)}`)
             .then((response) => {
@@ -244,12 +307,20 @@ if (productSection) {
 
                 const products = (data && data.products) || [];
 
+                ref.group.setAttribute("aria-busy", "false");
+
                 if (!products.length) {
-                    showMessage(`No ${label} products found.`, "status");
+                    showMessageIn(ref.track, `No ${label} products found.`, "status");
+                    status.textContent = `No ${label} products found`;
+                    updateGroup(ref);
                     return;
                 }
 
-                renderProducts(products, label);
+                fillRow(ref.track, products.map(createProductCard));
+
+                status.textContent = `Showing ${products.length} ${label} products`;
+
+                updateGroup(ref);
             })
             .catch((error) => {
                 if (request !== requestId) {
@@ -258,18 +329,28 @@ if (productSection) {
 
                 console.error(`Failed to load ${label} products:`, error);
 
-                showMessage(`Couldn't load ${label} products. Please try again.`, "alert");
+                ref.group.setAttribute("aria-busy", "false");
+                showMessageIn(ref.track, `Couldn't load ${label} products. Please try again.`, "alert");
+                status.textContent = `Couldn't load ${label} products`;
+
+                updateGroup(ref);
             });
     };
 
-    nextButton.addEventListener("click", () => {
-        currentIndex++;
-        updateCarousel();
-    });
+    // One delegated listener, so it covers every group including ones added later
+    productSection.addEventListener("click", (event) => {
+        const button = event.target.closest(".product-section__control");
 
-    previousButton.addEventListener("click", () => {
-        currentIndex--;
-        updateCarousel();
+        if (!button) {
+            return;
+        }
+
+        const group = button.closest(".product-section__group");
+        const ref = groups.find((item) => item.group === group);
+
+        if (ref) {
+            stepGroup(ref, button.dataset.direction === "next" ? 1 : -1);
+        }
     });
 
     window.addEventListener("resize", updateCarousel);
