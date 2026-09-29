@@ -96,6 +96,30 @@
 
         transition: transform 0.4s ease;
     }
+
+    // Shown when a category has no products, or the request failed
+    &__message {
+        display: flex;
+        align-items: center;
+
+        min-height: 120px;
+        min-width: 240px;
+
+        padding: 24px;
+
+        border-radius: 24px;
+
+        background: #fff5fc;
+
+        color: #555;
+
+        font-size: 14px;
+        line-height: 20px;
+
+        p {
+            margin: 0;
+        }
+    }
 }
 
 .product-card {
@@ -164,6 +188,7 @@
     &__price {
         display: flex;
         align-items: center;
+        
         gap: 8px;
 
         margin-top: 2px;
@@ -205,6 +230,69 @@
         span:last-child {
             color: #333;
         }
+    }
+
+    // Placeholder shown while a category is being fetched
+    &--loading {
+        pointer-events: none;
+
+        position: relative;
+        overflow: hidden;
+
+        .product-card__image {
+            background: #f3f2f3;
+        }
+
+        &::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            z-index: 1;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.65),
+                transparent
+            );
+
+            transform: translateX(-100%);
+
+            animation: product-loading 1.4s infinite;
+        }
+    }
+
+    &__bar {
+        display: block;
+
+        width: 100px;
+        height: 12px;
+
+        margin-top: 16px;
+
+        border-radius: 6px;
+
+        background: #e7e6e7;
+
+        &--short {
+            width: 56px;
+
+            margin-top: 8px;
+        }
+    }
+}
+
+@keyframes product-loading {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-card--loading::after {
+        animation: none;
     }
 }
 
