@@ -38,12 +38,12 @@
 
         padding: 0;
 
-        border: 0;
+        border: 1px solid #f0eef0;
         border-radius: 50%;
 
-        background: #f8f8f8;
+        background: transparent;
 
-        color: #777;
+        color: #292d32;
 
         font-size: 26px;
         line-height: 1;
@@ -52,16 +52,24 @@
 
         transition:
             background-color 0.2s ease,
-            color 0.2s ease;
+            opacity 0.2s ease;
 
-            span{
-                width: 24px;
-                height: 24px;
-            }
-   
-            &:hover {
-            background: #f0eef0;
-            color: #333;
+        span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 24px;
+            height: 24px;
+
+            color: #292d32;
+        }
+
+        &:hover,
+        &:active {
+            background: #f8f7f8;
+
+            opacity: 0.6;
         }
 
         &:focus-visible {
