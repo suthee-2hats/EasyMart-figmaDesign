@@ -99,20 +99,22 @@
 }
 
 .product-card {
-    width: 240px;
-
+    // Scales 240px -> 120px across the 1080px - 540px viewport range, so the
+    // card shrinks gradually instead of jumping at a breakpoint. Clamped at both
+    // ends, which keeps the desktop and mobile sizes exactly as the design has them.
+    width: clamp(120px, 22.2222vw, 240px);
 
     &__image {
         display: flex;
         align-items: center;
         justify-content: center;
 
-        width: 240px;
-        height: 240px;
+        width: clamp(120px, 22.2222vw, 240px);
+        height: clamp(120px, 22.2222vw, 240px);
 
         overflow: hidden;
 
-        border-radius: 32px;
+        border-radius: clamp(16px, 2.9630vw, 32px);
 
         background: #fff5fc;
 
@@ -141,7 +143,8 @@
 
         color: #171717;
 
-        font-size: 16px;
+        // 16px on desktop -> 14px on mobile, interpolated across 1080px - 540px
+        font-size: clamp(14px, calc(10.4px + 0.519vw), 16px);
         line-height: 16px;
         font-weight: 500;
 
@@ -168,7 +171,8 @@
         strong {
             color: #171717;
 
-            font-size: 20px;
+            // 20px on desktop -> 16px on mobile, interpolated across 1080px - 540px
+            font-size: clamp(16px, calc(10.4px + 0.889vw), 20px);
             line-height: 32px;
             font-weight: 600;
         }
@@ -200,6 +204,19 @@
 
         span:last-child {
             color: #333;
+        }
+    }
+}
+
+// Price colour changes at this breakpoint, matching the mobile design value,
+// so the switch happens once at a defined point instead of only at mobile-sm.
+@include tablet-sm() {
+
+    .product-card {
+        &__price {
+            strong {
+                color: #117e11;
+            }
         }
     }
 }
