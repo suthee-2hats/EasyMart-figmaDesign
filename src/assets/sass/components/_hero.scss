@@ -1,13 +1,63 @@
-.hero{
-    
-    .row{
+/* =================================
+   Hero Carousel
+   The slide scales fluidly from 422x248 on desktop down to
+   249x200 at 320px, so its size reduces continuously across every
+   screen width instead of jumping at a breakpoint.
+
+   Each axis is interpolated independently over the 320px - 1080px
+   viewport range, because the aspect ratio itself changes:
+     width  = 249px + (422 - 249) * (100vw - 320px) / (1080 - 320)
+     height = 200px + (248 - 200) * (100vw - 320px) / (1080 - 320)
+   Both are clamped so the size stays fixed outside that range.
+   ================================= */
+
+.hero-carousel {
+    width: 100%;
+
+    padding: 32px 0;
+
+    overflow: hidden;
+
+    &__viewport {
+        width: 100%;
+        overflow: hidden;
+
+        border-radius: 32px 0 0 32px;
+    }
+
+    &__track {
+        display: flex;
+        gap: 8px;
+
+        width: max-content;
+
+        will-change: transform;
+    }
+
+    &__slide {
+        flex: 0 0 auto;
+
+        width: clamp(249px, calc(176.16px + 22.7632vw), 422px);
+        height: clamp(200px, calc(179.79px + 6.3158vw), 248px);
+
         max-width: 100%;
+
+        overflow: hidden;
+        border-radius: 32px;
+
+        img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
     }
 }
 
-.swiper-button-prev,
-.swiper-button-next {
-    @include mobile-lg(){
-        display: none;
+@include tablet-lg() {
+    .hero-carousel {
+        padding: 32px 0 24px 24px;
     }
 }

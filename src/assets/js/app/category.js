@@ -44,42 +44,96 @@ if (categoryList) {
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(" ");
 
+    const status = document.createElement("span");
+    status.className = "sr-only";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    status.textContent = "Loading categories";
+    categoryList.appendChild(status);
+
+    const showSkeletons = () => {
+        categoryList.setAttribute("aria-busy", "true");
+
+        for (let i = 0; i < 6; i++) {
+            const skeleton = document.createElement("button");
+            skeleton.type = "button";
+            skeleton.className = "category-list__item category-list__item--skeleton";
+            skeleton.disabled = true;
+            skeleton.setAttribute("aria-hidden", "true");
+
+            const bar = document.createElement("span");
+            bar.className = "category-list__skeleton-bar";
+
+            skeleton.appendChild(bar);
+            categoryList.appendChild(skeleton);
+        }
+    };
+
+    const buildItems = (categories) => {
+        categoryList.textContent = "";
+        categoryList.setAttribute("aria-busy", "false");
+        status.textContent = "Categories loaded";
+
+        categories.forEach((slug, index) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "category-list__item";
+            button.dataset.slug = slug;
+            button.setAttribute("aria-pressed", String(index === 0));
+
+            if (index === 0) {
+                button.classList.add("category-list__item--active");
+            }
+
+            const icon = document.createElement("span");
+            icon.className = "category-list__icon";
+            
+            const iconWrapper = document.createElement("span");
+            iconWrapper.className = "category-list__icon-wrapper";
+            
+            const img = document.createElement("img");
+            img.src = `${ICON_BASE}/${CATEGORY_ICONS[slug] || "1F4E6"}.svg`;
+            img.alt = "";
+            img.width = 32;
+            img.height = 32;
+            
+            iconWrapper.appendChild(img);
+            icon.appendChild(iconWrapper);
+
+            const name = document.createElement("span");
+            name.className = "category-list__name";
+            name.textContent = toLabel(slug);
+
+            button.appendChild(icon);
+            button.appendChild(name);
+            button.addEventListener("click", () => select(button));
+
+            categoryList.appendChild(button);
+        });
+
+        categoryList.appendChild(status);
+
+        document.dispatchEvent(
+            new CustomEvent("category-ready", {
+                detail: { slug: categories[0], label: toLabel(categories[0]) }
+            })
+        );
+    };
+
+    const showError = () => {
+        categoryList.textContent = "";
+        categoryList.setAttribute("aria-busy", "false");
+        status.textContent = "Categories could not be loaded";
+        categoryList.appendChild(status);
+    };
+
+    showSkeletons();
+
     fetch("https://dummyapi.codesmash.in/api/products/categories")
         .then((res) => res.json())
-        .then((categories) => {
-            categories.forEach((slug, index) => {
-                const button = document.createElement("button");
-                button.type = "button";
-                button.className = "category-list__item";
-                button.setAttribute("aria-pressed", String(index === 0));
-
-                if (index === 0) {
-                    button.classList.add("category-list__item--active");
-                }
-
-                const icon = document.createElement("span");
-                icon.className = "category-list__icon";
-
-                const img = document.createElement("img");
-                img.src = `${ICON_BASE}/${CATEGORY_ICONS[slug] || "1F4E6"}.svg`;
-                img.alt = "";
-                img.width = 32;
-                img.height = 32;
-
-                icon.appendChild(img);
-
-                const name = document.createElement("span");
-                name.className = "category-list__name";
-                name.textContent = toLabel(slug);
-
-                button.appendChild(icon);
-                button.appendChild(name);
-                button.addEventListener("click", () => select(button));
-
-                categoryList.appendChild(button);
-            });
-        })
-        .catch((error) => {
-            console.error("Failed to load categories:", error);
+        .then(buildItems)
+        .catch(() => {
+            console.error("Failed to load categories");
+            showError();
         });
 }

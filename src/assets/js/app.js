@@ -2,3 +2,4 @@
 //=require app/menu.js
 //=require app/category.js
 //=require app/hero.js
+//=require app/products.js

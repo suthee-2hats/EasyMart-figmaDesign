@@ -39,9 +39,60 @@
 
         cursor: pointer;
 
+        &--skeleton {
+            pointer-events: none;
+            cursor: default;
+
+            background: #f3f2f3;
+
+            position: relative;
+            overflow: hidden;
+
+            &::after {
+                content: "";
+
+                position: absolute;
+                inset: 0;
+
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.65),
+                    transparent
+                );
+
+                transform: translateX(-100%);
+
+                animation: category-skeleton 1.4s infinite;
+            }
+        }
+
         &--active {
             background: #fce8f7;
             border-color: #d52da5;
+        }
+    }
+
+    &__skeleton-bar {
+        display: block;
+
+        width: 72px;
+        height: 12px;
+
+        border-radius: 6px;
+
+        background: #e7e6e7;
+    }
+
+    @keyframes category-skeleton {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .category-list__item--skeleton::after {
+            animation: none;
         }
     }
 
