@@ -16,11 +16,11 @@ html,
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: $font-regular;
+  font-family: $font-family;
   font-size: 14px;
   min-height: 100%;
   width: auto;
-  letter-spacing: -1%;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 

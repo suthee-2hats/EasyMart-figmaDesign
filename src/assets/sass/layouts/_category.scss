@@ -20,13 +20,13 @@
 
         flex: 0 0 auto;
         width: auto;
-        height: 40px;
-        padding: 8px 16px;
+        height: 48px;
+        padding: 11px 16px 11px 8px;
 
         border: 1px solid transparent;
         border-radius: 32px;
 
-        background: #f7f7f7;
+        background: #f8f7f8;
 
         color: #171717;
 
@@ -68,8 +68,12 @@
         }
 
         &--active {
-            background: #fce8f7;
+            background: #fef5fd;
             border-color: #d52da5;
+
+            .category-list__icon {
+                background: #ec86d8;
+            }
         }
     }
 
@@ -104,9 +108,11 @@
         width: 26px;
         height: 26px;
 
-        flex: 0 0 32px;
+        flex: 0 0 26px;
 
         border-radius: 50%;
+
+        background: #f0eef0;
 
         overflow: hidden;
 
@@ -120,9 +126,11 @@
         }
     }
 
-&__name {
+    &__name {
         white-space: nowrap;
+
         font-size: 14px;
+        line-height: 20px;
     }
 }
 

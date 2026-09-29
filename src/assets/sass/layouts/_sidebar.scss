@@ -37,7 +37,7 @@
 .product-filters__title {
     margin: 0;
 
-    font-family: 'Inter', sans-serif;
+    font-family: $font-family;
     font-size: 16px;
     font-weight: 700;
 
@@ -50,7 +50,7 @@
     border: 0;
     background: transparent;
 
-    font-family: 'Inter', sans-serif;
+    font-family: $font-family;
     font-size: 14px;
     font-weight: 700;
 
@@ -103,7 +103,7 @@
 .product-filters__group-title {
     margin: 0 0 8px;
 
-    font-family: 'Inter', sans-serif;
+    font-family: $font-family;
     font-size: 16px;
     font-weight: 700;
 
@@ -193,7 +193,7 @@
     &__label {
         min-width: 0;
 
-        font-family: 'Inter', sans-serif;
+        font-family: $font-family;
         font-size: 8px;
         font-weight: 400;
 
