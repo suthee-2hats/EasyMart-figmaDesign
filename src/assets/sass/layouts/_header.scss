@@ -1,19 +1,19 @@
 /* ================================
    EasyMart Header
-================================ */
+   ================================ */
 
 .header {
     background: #fff;
     border-bottom: 1px solid #eee;
-   
-    z-index: 1000;
+    position:sticky;
+    z-index: 9999;
     width: 100%;
     height: 84px;
     padding: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow: visible;
     .header-inner {
         width: 100%;
         display: flex;
@@ -25,237 +25,13 @@
         width: 100%;
         display: flex;
     }
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
 }
 
-
-/* Logo */
-
-.header-item-left {
-   @extend %center-flex;
-}
-
-.brand {
-    display: inline-flex;
-    align-items: center;
-
-    img {
-        display: block;
-        width: 134px;
-        height: 32px;
-        object-fit: contain;
-    }
-
-    &:focus-visible {
-        outline: 2px solid #d94fb3;
-        outline-offset: 3px;
-    }
-}
-
-
-/* Header content */
-
-.header-item-right {
-    display: flex;
-    align-items: center;
-    flex: 1;
-}
-
-
-/* Navigation */
-
-.header-navigation {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 20px;
-}
-
-
-/* Location */
-
-.header-location {
-   @extend %center-flex;
-    gap: 5px;
-
-    flex-shrink: 0;
-
-    font-size: 14px;
-    color: #3E3B3F;
-
-    .ion {
-        font-size: 14px;
-    }
-}
-
-.location-toggle {
-    padding: 0;
-    border: 0;
-    background: none;
-    display: flex;
-
-    cursor: pointer;
-
-    &:focus-visible {
-        outline: 2px solid #d94fb3;
-    }
-    img {
-    align-self: center;
-
-    }
-}
-
-
-/* Search */
-
-.header-search {
-    flex: 0 1 toRem(458);
-    width: 100%;
-    max-width: toRem(458);
-
-   
-    margin: 0 auto;
-    label{
-        display: none;
-    }
-    .header-search_inside{
-        width: 100%;
-        max-width: 458px;
-        height: 64px;
-        border-radius: 32px;
-        background: #fff;
-        border: 1px solid #f8f7f8;
-        box-shadow: 0 2px 80px 0 rgba(0, 0, 0, 0.04);
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-self: center;
-        .search-icon_image{
-               padding: 16px 8px 16px 16px;
-        }
-
-    }
-
-    input {
-        width: 100%;
-        
-       
-
-        border: 0;
-       
-        background: transparent;
-
-        font-size: 14px;
-
-        &:focus {
-            outline: 2px solid rgba(217, 79, 179, 0.25);
-        }
-    }
-}
-
-//----------------------------------------------------------------------- cart+login 
-/* Cart */
-
-.header-cart {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 95px;
-    height: 40px;
-    flex-shrink: 0;
-    background-color: var(--primary-pink );
-    border-radius:39px ;
-    font-size: 12px;
-
-    text-decoration: none;
-
-    &:hover {
-        color: #d94fb3;
-        text-decoration: none;
-    }
-
-    &:focus-visible {
-        outline: 2px solid #d94fb3;
-        outline-offset: 3px;
-    }
-    .card-imageAndNumber{
-         border-radius: 32px;
-         @extend %center-flex;
-         justify-content: center;
-         gap:2px;
-         width: 40px;
-         height: 28px;
-         background-color: var(--c-white);
-         padding:6px 4px;
-
-         span{
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--c-primary);
-         }
-
-    }
-
-}
-
-.cart-count {
-    font-size: 11px;
-}
-.cart-label{
-    font-family: $font-family;
-    font-size: 14px; 
-    color: #0D0C0D;
-}
-
-
-/* Login */
-
-.header-login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-   width: 124px;
-   height: 42px;
-    padding: 0 15px;
-
-    border: 1px solid var(--c-primary);
-    border-radius: 20px;
-
-    color: var(--c-black);
-    font-size: 14px;
-
-    text-decoration: none;
-
-}
-
-//----------------------------------------------------------------------------------------cart+ login
-/* Mobile menu button */
-
-.menu-mobile-trigger {
-    display: none;
-
-    padding: 0;
-    border: 0;
-    background: none;
-
-    font-size: 18px;
-
-    &:focus-visible {
-        outline: 2px solid #d94fb3;
-        outline-offset: 3px;
-    }
-}
-
-
-/* ================================
-   Tablet / Mobile
-================================ */
 
 /* ================================
    Tablet
-================================ */
+   ================================ */
 
 @include tablet-lg() {
 
@@ -273,232 +49,16 @@
 
         gap: 20px;
     }
-
-    /* ================================
-       Menu + Logo
-    ================================= */
-
-    .header-item-left {
-        display: flex;
-        align-items: center;
-
-        gap: 16px;
-
-        flex-shrink: 0;
-    }
-
-    .menu-mobile-trigger {
-        width: 40px;
-        height: 40px;
-
-        padding: 0;
-        margin: 0;
-
-        border: 0;
-        background: transparent;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        flex-shrink: 0;
-
-        cursor: pointer;
-
-        img {
-            display: block;
-            width: 20px;
-            height: 20px;
-        }
-
-        &:focus-visible {
-            outline: 2px solid #d94fb3;
-            outline-offset: 3px;
-            border-radius: 6px;
-        }
-    }
-
-    .brand {
-        display: flex;
-        align-items: center;
-
-        flex-shrink: 0;
-
-        img {
-            display: block;
-            width: 124px;
-            height: auto;
-            object-fit: contain;
-        }
-    }
-
-    /* ================================
-       Right side
-    ================================= */
-
-    .header-item-right {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .header-navigation {
-        width: 100%;
-
-        display: flex;
-        align-items: center;
-
-        gap: 12px;
-    }
-
-    /* Hide location on tablet */
-
-    .header-location {
-        display: none;
-    }
-
-    /* ================================
-       Search
-    ================================= */
-
-    .header-search {
-        flex: 1;
-
-        width: auto;
-        max-width: 360px;
-
-        margin: 0 auto;
-
-        .header-search_inside {
-            width: 100%;
-            max-width: none;
-
-            height: 48px;
-
-            border-radius: 24px;
-        }
-
-        input {
-            min-width: 0;
-            font-size: 13px;
-        }
-    }
-
-    /* ================================
-       Cart
-    ================================= */
-
-    .header-cart {
-        width: 88px;
-        height: 40px;
-
-        flex-shrink: 0;
-    }
-
-    /* ================================
-       Login
-    ================================= */
-
-    .header-login {
-        width: 100px;
-        height: 40px;
-
-        flex-shrink: 0;
-    }
 }
-
-/* ================================
-   landscape Mobile
-================================ */
-@include mobile-lg() {
-    .header-cart {
-        width: 55px;
-        height: 40px;
-
-        justify-content: center;
-
-        border-radius: 48.75px;
-
-        
-        color: #fff;
-        .card-imageAndNumber{
-            height: 35px;
-            width: 50px;
-        }
-        .cart-label {
-            display: none;
-        }
-
-        .cart-count {
-            color: #fff;
-        }
-}
-       .header-login{
-        width: 55px;
-        span{
-            display: none;
-        }
-       }
-
-}
-
-
-/* ================================
-   Small Mobile
-================================ */
-
-@include mobile-md() {
-
-    .brand img {
-        width: 100px;
-        height: auto;
-    }
-
-    .header-search input {
-        height: 34px;
-        font-size: 10px;
-    }
-
-
-    .header-login {
-        display: none;
-    }
- }
 
 
 /* ================================
    Very Small Mobile
-================================ */
+   ================================ */
 
 @include mobile-sm() {
 
-    .header-item-left {
-        display: none;
-    }
-
-    .header-search {
-        display: none;
-    }
-
     .header-inner {
         flex-wrap: wrap;
-    }
-
-    .header-item-right {
-        width: 100%;
-    }
-
-    .header-navigation {
-        flex-wrap: wrap;
-    }
-
-    .header-location {
-        display: flex;
-        order: 1;
-        flex: 1;
-        justify-content: center;
-    }
-
-    .header-cart {
-        order: 2;
     }
 }

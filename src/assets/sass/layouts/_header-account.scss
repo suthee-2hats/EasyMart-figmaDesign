@@ -1,0 +1,168 @@
+/* ================================
+   EasyMart Header - cart and login
+   ================================ */
+
+
+/* Cart */
+
+.header-cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 95px;
+    height: 40px;
+    flex-shrink: 0;
+    background-color: var(--primary-pink );
+    border-radius:39px ;
+    font-size: 12px;
+
+    text-decoration: none;
+
+    &:hover {
+        color: #d94fb3;
+        text-decoration: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid #d94fb3;
+        outline-offset: 3px;
+    }
+    .card-imageAndNumber{
+         border-radius: 32px;
+         @extend %center-flex;
+         justify-content: center;
+         gap:2px;
+         width: 40px;
+         height: 28px;
+         background-color: var(--c-white);
+         padding:6px 4px;
+
+         span{
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--c-primary);
+         }
+
+    }
+
+}
+
+.cart-count {
+    font-size: 11px;
+}
+.cart-label{
+    font-family: $font-family;
+    font-size: 14px; 
+    color: #0D0C0D;
+}
+
+
+/* Login */
+
+.header-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+   width: 124px;
+   height: 42px;
+    padding: 0 15px;
+
+    // Matches .header-cart, so the row tightens on the search field
+    // rather than crushing the button
+    flex-shrink: 0;
+
+    border: 1px solid var(--c-primary);
+    border-radius: 20px;
+
+    color: var(--c-black);
+    font-size: 14px;
+
+    text-decoration: none;
+
+}
+
+
+/* ================================
+   Tablet
+   ================================ */
+
+@include tablet-lg() {
+
+    .header-cart {
+        width: 88px;
+        height: 40px;
+
+        flex-shrink: 0;
+    }
+
+    .header-login {
+        width: 100px;
+        height: 40px;
+
+        flex-shrink: 0;
+    }
+}
+
+
+/* ================================
+   landscape Mobile
+   ================================ */
+
+@include mobile-lg() {
+    .header-cart {
+        width: 55px;
+        height: 40px;
+
+        justify-content: center;
+
+        border-radius: 48.75px;
+
+        
+        color: #fff;
+        .card-imageAndNumber{
+            height: 35px;
+            width: 50px;
+        }
+        .cart-label {
+            display: none;
+        }
+
+        .cart-count {
+            color: #fff;
+        }
+}
+       .header-login{
+        width: 55px;
+        span{
+            display: none;
+        }
+       }
+
+}
+
+
+/* ================================
+   Small Mobile
+   ================================ */
+
+@include mobile-md() {
+
+    .header-login {
+        display: none;
+    }
+ }
+
+
+/* ================================
+   Very Small Mobile
+   ================================ */
+
+@include mobile-sm() {
+
+    .header-cart {
+        order: 2;
+    }
+}
