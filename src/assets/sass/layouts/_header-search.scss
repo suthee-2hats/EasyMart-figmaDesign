@@ -69,6 +69,7 @@
 
         background: #fff;
         border-radius: 0 0 24px 24px;
+        border-color: #b0adb0;
 
         z-index: 1000;
 
@@ -128,6 +129,13 @@
             }
         }
     }
+}
+
+.header-search input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+
+   
 }
 
 

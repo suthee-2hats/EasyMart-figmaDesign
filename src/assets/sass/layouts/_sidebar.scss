@@ -225,6 +225,7 @@
     .product-filters.is-open {
         transform: translateX(0);
         visibility: visible;
+        z-index: 9999;
     }
 
 }

@@ -4,6 +4,7 @@
     gap: 16px;
 
     width: 100%;
+    min-width:0;
     overflow-x: auto;
     padding: 24px 0 0;
 
@@ -38,6 +39,23 @@
         white-space: nowrap;
 
         cursor: pointer;
+
+        transition:
+            background-color 180ms ease,
+            border-color 180ms ease,
+            box-shadow 180ms ease;
+
+        // :not(--active) so the selected category keeps its pink fill
+        &:hover:not(.category-list__item--active) {
+            background: #ffffff;
+            border-color: #d9d6d9;
+            box-shadow: 0 2px 6px rgba(23, 23, 23, 0.08);
+        }
+
+        &:focus-visible {
+            outline: 2px solid #d94fb3;
+            outline-offset: 3px;
+        }
 
         &--skeleton {
             pointer-events: none;
@@ -95,6 +113,10 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+        .category-list__item {
+            transition: none;
+        }
+
         .category-list__item--skeleton::after {
             animation: none;
         }

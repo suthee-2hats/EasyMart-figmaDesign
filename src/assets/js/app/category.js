@@ -137,3 +137,16 @@ if (categoryList) {
             showError();
         });
 }
+
+// Add scroll listener to category list
+categoryList.addEventListener(
+    "wheel",
+    (event) => {
+        if (event.deltaY === 0) return;
+
+        event.preventDefault();
+
+        categoryList.scrollLeft += event.deltaY;
+    },
+    { passive: false }
+);

@@ -1,6 +1,12 @@
 const searchInput = document.querySelector("#header-search");
 const searchDropdown = document.querySelector(".search-dropdown");
 const searchItems = document.querySelectorAll(".search-dropdown__item");
+const searchInside = document.querySelector(".header-search_inside");
+
+searchInside.addEventListener("click", () => {
+    searchInput.focus();
+    searchInput.style.borderColor = "none";
+});
 
 if (searchInput && searchDropdown) {
 
