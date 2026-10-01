@@ -73,6 +73,12 @@
 
         z-index: 1000;
 
+        // Results can outgrow the panel, so it scrolls rather than growing
+        max-height: 360px;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+
         opacity: 0;
         visibility: hidden;
         transform: translateY(-8px);
@@ -86,6 +92,13 @@
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
+        }
+
+        // Toggled with the hidden attribute; [hidden] already implies
+        // display:none, so no explicit rule is needed for the hidden case
+        &__popular,
+        &__results {
+            display: block;
         }
 
         &__title {
@@ -127,6 +140,115 @@
                 outline: 2px solid #d94fb3;
                 outline-offset: 2px;
             }
+        }
+
+        // Product rows use a stacked list, deliberately not the wrapping
+        // chip layout the popular searches use
+        &__product {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            min-height: 68px;
+
+            padding: 8px 12px;
+
+            border: 0;
+            border-radius: 12px;
+
+            background: transparent;
+
+            font: inherit;
+            text-align: left;
+
+            cursor: pointer;
+
+            transition: background-color 0.15s ease;
+
+            &:hover {
+                background: #f8f7f8;
+            }
+
+            &:focus-visible {
+                outline: 2px solid #d94fb3;
+                outline-offset: 2px;
+            }
+        }
+
+        &__product-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 48px;
+            height: 48px;
+
+            flex: 0 0 48px;
+
+            margin-right: 12px;
+
+            border-radius: 8px;
+
+            background: #f8f7f8;
+
+            overflow: hidden;
+
+            img {
+                display: block;
+
+                width: 48px;
+                height: 48px;
+
+                object-fit: contain;
+            }
+        }
+
+        &__product-info {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+
+            gap: 3px;
+        }
+
+        &__product-title {
+            overflow: hidden;
+
+            color: #171717;
+
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 400;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+        &__product-price {
+            color: #777;
+
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+        &__empty {
+            display: flex;
+            align-items: center;
+
+            min-height: 80px;
+
+            padding: 12px;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+        // Failures are worth a stronger colour than an empty result set
+        &__empty--error {
+            color: #c0392b;
         }
     }
 }

@@ -62,53 +62,41 @@
     <!-- Search dropdown -->
     <div class="search-dropdown">
 
-        <p class="search-dropdown__title">
-            Popular Search <span aria-hidden="true">⚡</span>
-        </p>
+        <!-- Popular searches, shown when the input is empty -->
+        <div class="search-dropdown__popular">
 
-        <div class="search-dropdown__list">
+            <p class="search-dropdown__title">
+                Popular Search <span aria-hidden="true">⚡</span>
+            </p>
 
-            <button type="button" class="search-dropdown__item">
-                Beef
-            </button>
+            <div class="search-dropdown__list">
 
-            <button type="button" class="search-dropdown__item">
-                Rice
-            </button>
+                <button type="button" class="search-dropdown__item">
+                    Beef
+                </button>
 
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
+                <button type="button" class="search-dropdown__item">
+                    Rice
+                </button>
 
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
+                <button type="button" class="search-dropdown__item">
+                    Fresh bakery
+                </button>
 
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
+                <button type="button" class="search-dropdown__item">
+                    Fruits
+                </button>
 
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
-
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
-
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
-
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
-
-            <button type="button" class="search-dropdown__item">
-                Fresh bakery
-            </button>
-
+            </div>
         </div>
+
+        <!-- Product results, filled in by header-search.js as the user types -->
+        <div
+            class="search-dropdown__results"
+            aria-live="polite"
+            hidden
+        ></div>
+
     </div>
 
 </form>
