@@ -231,3 +231,67 @@
 }
 
 //--------------------------------------------------------checkbox to the toggle button 
+
+
+
+//--------------------------------------------------------for user filters 
+
+.product-filters {
+
+    // Your existing styles...
+
+    &__user {
+        display: flex;
+        align-items: center;
+
+        width: 100%;
+
+        margin-top: auto;
+        padding-top: 32px;
+
+        border-top: 1px solid #f0eef0;
+    }
+
+    &__user-image {
+        width: 56px;
+        height: 56px;
+
+        flex: 0 0 56px;
+
+        overflow: hidden;
+
+        border-radius: 50%;
+
+        background: #f8f7f8;
+
+        img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+    }
+
+    &__user-info {
+        min-width: 0;
+
+        margin-left: 12px;
+    }
+
+    &__user-name {
+        display: block;
+
+        overflow: hidden;
+
+        color: #171717;
+
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

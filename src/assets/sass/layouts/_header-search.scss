@@ -2,12 +2,11 @@
    EasyMart Header - search
    ================================ */
 
-.header-search {
+   .header-search {
     position: relative;
 
     // Grows up to the 648px cap, but may give space back when the row gets
-    // tight. flex-shrink: 0 here is what used to shove the cart and login
-    // off the edge, so the deficit has to be absorbed here instead.
+    // tight.
     flex: 1 1 648px;
     min-width: 0;
 
@@ -55,29 +54,44 @@
         }
     }
 
-    // Popular search dropdown
+    // ================================
+    // Search dropdown
+    // ================================
+
     .search-dropdown {
         position: absolute;
         top: 63px;
         left: 0;
 
-        // Tracks the field, which now shrinks instead of staying 648px
         width: 100%;
-        min-height: 226px;
+        height: 320px;
+
+        box-sizing: border-box;
+        max-height: 320px;
 
         padding: 20px 16px;
 
         background: #fff;
         border-radius: 0 0 24px 24px;
-        border-color: #b0adb0;
+        border: 1px solid #b0adb0;
 
         z-index: 1000;
 
-        // Results can outgrow the panel, so it scrolls rather than growing
-        max-height: 360px;
-
         overflow-x: hidden;
         overflow-y: auto;
+
+        // ================================
+        // Scrollbar
+        // ================================
+
+        // Firefox
+        scrollbar-width:4px;
+        scrollbar-color: #000000 transparent;
+    
+
+        // ================================
+        // Dropdown animation
+        // ================================
 
         opacity: 0;
         visibility: hidden;
@@ -94,8 +108,10 @@
             transform: translateY(0);
         }
 
-        // Toggled with the hidden attribute; [hidden] already implies
-        // display:none, so no explicit rule is needed for the hidden case
+        // ================================
+        // Popular / Results
+        // ================================
+
         &__popular,
         &__results {
             display: block;
@@ -115,6 +131,10 @@
             flex-wrap: wrap;
             gap: 10px 8px;
         }
+
+        // ================================
+        // Popular search item
+        // ================================
 
         &__item {
             height: 28px;
@@ -142,8 +162,10 @@
             }
         }
 
-        // Product rows use a stacked list, deliberately not the wrapping
-        // chip layout the popular searches use
+        // ================================
+        // Product result
+        // ================================
+
         &__product {
             display: flex;
             align-items: center;
@@ -175,6 +197,10 @@
             }
         }
 
+        // ================================
+        // Product image
+        // ================================
+
         &__product-image {
             display: flex;
             align-items: center;
@@ -203,6 +229,10 @@
             }
         }
 
+        // ================================
+        // Product information
+        // ================================
+
         &__product-info {
             display: flex;
             flex-direction: column;
@@ -222,7 +252,6 @@
             font-weight: 400;
 
             text-overflow: ellipsis;
-
             white-space: nowrap;
         }
 
@@ -232,6 +261,10 @@
             font-size: 12px;
             line-height: 16px;
         }
+
+        // ================================
+        // Empty result
+        // ================================
 
         &__empty {
             display: flex;
@@ -246,18 +279,20 @@
             font-size: 13px;
         }
 
-        // Failures are worth a stronger colour than an empty result set
         &__empty--error {
             color: #c0392b;
         }
     }
 }
 
+
+// ================================
+// Search input cancel button
+// ================================
+
 .header-search input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
-
-   
 }
 
 
@@ -293,8 +328,6 @@
             font-size: 13px;
         }
 
-        // The bar is 48px here, so the panel has to re-anchor to it or it
-        // detaches from the field
         .search-dropdown {
             top: 47px;
         }

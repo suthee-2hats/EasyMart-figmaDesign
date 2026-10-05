@@ -26,66 +26,6 @@
         class="product-filters__form"
     >
 
-        <!-- Quick filters -->
-        <fieldset class="product-filters__group">
-
-
-            <label class="product-filter">
-                <input
-                    type="checkbox"
-                    name="filter"
-                    value="deals"
-                >
-
-                <span
-                    class="product-filter__control"
-                    aria-hidden="true"
-                ></span>
-
-                <span class="product-filter__label">
-                    Deals
-                </span>
-            </label>
-
-
-            <label class="product-filter">
-                <input
-                    type="checkbox"
-                    name="filter"
-                    value="new-arrivals"
-                >
-
-                <span
-                    class="product-filter__control"
-                    aria-hidden="true"
-                ></span>
-
-                <span class="product-filter__label">
-                    New Arrivals
-                </span>
-            </label>
-
-
-            <label class="product-filter">
-                <input
-                    type="checkbox"
-                    name="filter"
-                    value="near-me"
-                >
-
-                <span
-                    class="product-filter__control"
-                    aria-hidden="true"
-                ></span>
-
-                <span class="product-filter__label">
-                    Near Me
-                </span>
-            </label>
-
-        </fieldset>
-
-
         <!-- Price -->
         <fieldset class="product-filters__group">
 
@@ -93,9 +33,7 @@
                 Price
             </legend>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
                     name="price"
@@ -111,16 +49,13 @@
                 <span class="product-filter__label">
                     All
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
                     name="price"
-                    value="4-12"
+                    value="0-100"
                 >
 
                 <span
@@ -129,18 +64,15 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    $4 - $12
+                    Under $100
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
                     name="price"
-                    value="12-40"
+                    value="100-500"
                 >
 
                 <span
@@ -149,18 +81,15 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    $12 - $40
+                    $100 - $500
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
                     name="price"
-                    value="40-plus"
+                    value="500-1000"
                 >
 
                 <span
@@ -169,27 +98,41 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    $40 & Above
+                    $500 - $1,000
                 </span>
+            </label>
 
+            <label class="product-filter">
+                <input
+                    type="radio"
+                    name="price"
+                    value="1000-plus"
+                >
+
+                <span
+                    class="product-filter__control"
+                    aria-hidden="true"
+                ></span>
+
+                <span class="product-filter__label">
+                    $1,000 & Above
+                </span>
             </label>
 
         </fieldset>
 
 
-        <!-- Made in -->
+        <!-- Discount -->
         <fieldset class="product-filters__group">
 
             <legend class="product-filters__group-title">
-                Made in
+                Discount
             </legend>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
-                    name="made-in"
+                    name="discount"
                     value="all"
                     checked
                 >
@@ -202,16 +145,13 @@
                 <span class="product-filter__label">
                     All
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
-                    name="made-in"
-                    value="united-states"
+                    name="discount"
+                    value="10"
                 >
 
                 <span
@@ -220,18 +160,15 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    United States
+                    10% & Above
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
-                    name="made-in"
-                    value="canada"
+                    name="discount"
+                    value="20"
                 >
 
                 <span
@@ -240,18 +177,15 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    Canada
+                    20% & Above
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
                     type="radio"
-                    name="made-in"
-                    value="other"
+                    name="discount"
+                    value="30"
                 >
 
                 <span
@@ -260,28 +194,43 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    Other
+                    30% & Above
                 </span>
+            </label>
 
+            <label class="product-filter">
+                <input
+                    type="radio"
+                    name="discount"
+                    value="50"
+                >
+
+                <span
+                    class="product-filter__control"
+                    aria-hidden="true"
+                ></span>
+
+                <span class="product-filter__label">
+                    50% & Above
+                </span>
             </label>
 
         </fieldset>
 
 
-        <!-- Additional filter -->
+        <!-- Rating -->
         <fieldset class="product-filters__group">
 
             <legend class="product-filters__group-title">
-                Made in
+                Rating
             </legend>
 
-
             <label class="product-filter">
-
                 <input
-                    type="checkbox"
-                    name="additional-filter"
-                    value="option-1"
+                    type="radio"
+                    name="rating"
+                    value="all"
+                    checked
                 >
 
                 <span
@@ -290,18 +239,15 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    Remember me
+                    All
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
-                    type="checkbox"
-                    name="additional-filter"
-                    value="option-2"
+                    type="radio"
+                    name="rating"
+                    value="4"
                 >
 
                 <span
@@ -310,18 +256,15 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    Remember me
+                    4 ★ & Above
                 </span>
-
             </label>
 
-
             <label class="product-filter">
-
                 <input
-                    type="checkbox"
-                    name="additional-filter"
-                    value="option-3"
+                    type="radio"
+                    name="rating"
+                    value="3"
                 >
 
                 <span
@@ -330,13 +273,55 @@
                 ></span>
 
                 <span class="product-filter__label">
-                    Remember me
+                    3 ★ & Above
                 </span>
+            </label>
 
+            <label class="product-filter">
+                <input
+                    type="radio"
+                    name="rating"
+                    value="2"
+                >
+
+                <span
+                    class="product-filter__control"
+                    aria-hidden="true"
+                ></span>
+
+                <span class="product-filter__label">
+                    2 ★ & Above
+                </span>
             </label>
 
         </fieldset>
 
     </form>
+
+
+    <!-- User information -->
+    <div
+        class="product-filters__user"
+        aria-label="User information"
+    >
+
+        <div class="product-filters__user-image">
+            <img
+                src=""
+                alt=""
+                id="filter-user-image"
+            >
+        </div>
+
+        <div class="product-filters__user-info">
+            <span
+                class="product-filters__user-name"
+                id="filter-user-name"
+            >
+                Loading...
+            </span>
+        </div>
+
+    </div>
 
 </aside>

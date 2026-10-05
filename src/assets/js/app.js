@@ -6,3 +6,6 @@
 //=require app/product-carousel.js
 //=require app/products.js
 //=require app/header-search.js
+//=require app/fetchUser.js
+
+
