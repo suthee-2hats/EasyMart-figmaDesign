@@ -210,7 +210,30 @@
         position: fixed;
         top: 0;
         left: 0;
+
+        // dvh tracks collapsing mobile browser chrome, so the drawer cannot
+        // extend below the visible area when the URL bar hides. The vh is
+        // kept as the fallback for browsers without dvh.
         height: 100vh;
+        height: 100dvh;
+
+        // At this width the panel is fixed at viewport height but taller than
+        // its content, so without this nothing scrolls it and the bottom
+        // filters are unreachable. On desktop it stays a plain flex item and
+        // the page scroll reveals them instead, which is why this only
+        // applies here rather than to the base rule.
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        // Once the panel reaches its end, stop the page behind it from
+        // scrolling as the wheel keeps turning
+        overscroll-behavior: contain;
+
+        // The default bar is visually heavy in a narrow drawer
+        scrollbar-width: thin;
+        scrollbar-color: #d5d2d5 transparent;
+
+        max-width: 100%;
 
         transform: translateX(-100%);
         visibility: hidden;
@@ -220,6 +243,24 @@
             visibility 0.3s ease;
 
         z-index: 1100;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 3px;
+
+            background: #d5d2d5;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #b0adb0;
+        }
     }
 
     .product-filters.is-open {
