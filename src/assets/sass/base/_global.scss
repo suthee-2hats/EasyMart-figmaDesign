@@ -41,5 +41,27 @@ a{
 
 
 .card{
-  width: 50%;
+    width: 50%;
+}
+
+// Screen-reader-only text. The project referenced this class from three JS
+// files without ever defining it, which left the live regions visible on
+// screen. Visually hidden but still exposed to assistive technology.
+.sr-only {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    border: 0;
+
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
 }

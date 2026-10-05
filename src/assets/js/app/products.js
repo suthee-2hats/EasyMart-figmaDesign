@@ -8,12 +8,6 @@ if (productSection) {
 
     const API_BASE = "https://dummyapi.codesmash.in/api/products/category";
 
-    const status = document.createElement("span");
-    status.className = "sr-only";
-    status.setAttribute("role", "status");
-    status.setAttribute("aria-live", "polite");
-    productSection.appendChild(status);
-
     // Incremented per request so a slow response cannot overwrite a newer group
     let requestId = 0;
     let lastSlug = null;
@@ -24,6 +18,10 @@ if (productSection) {
     const updateCarousel = () => {
         groups.forEach(ProductCarousel.updateGroup);
     };
+
+    // Filtering changes how many cards are visible, so each group has to
+    // recompute its own bounds
+    document.addEventListener("products-filtered", updateCarousel);
 
     const loadCategory = (slug, label) => {
         if (!slug || slug === lastSlug) {
@@ -56,7 +54,7 @@ if (productSection) {
         // No cards yet, so the controls start disabled while loading
         ProductCarousel.updateGroup(ref);
 
-        status.textContent = `Loading ${label} products`;
+        ref.status.textContent = `Loading ${label} products`;
 
         fetch(`${API_BASE}/${encodeURIComponent(slug)}`)
             .then((response) => {
@@ -77,14 +75,18 @@ if (productSection) {
 
                 if (!products.length) {
                     ProductCarousel.renderMessage(ref.track, `No ${label} products found.`, "status");
-                    status.textContent = `No ${label} products found`;
+                    ref.status.textContent = `No ${label} products found`;
                     ProductCarousel.updateGroup(ref);
                     return;
                 }
 
                 ProductCarousel.renderCards(ref.track, products.map(ProductCard.create));
 
-                status.textContent = `Showing ${products.length} ${label} products`;
+                // Fired after the cards are in the DOM so the filter can
+                // apply the active selection to this group too
+                document.dispatchEvent(new CustomEvent("products-rendered"));
+
+                ref.status.textContent = `Showing ${products.length} ${label} products`;
 
                 ProductCarousel.updateGroup(ref);
             })
@@ -97,7 +99,7 @@ if (productSection) {
 
                 ref.group.setAttribute("aria-busy", "false");
                 ProductCarousel.renderMessage(ref.track, `Couldn't load ${label} products. Please try again.`, "alert");
-                status.textContent = `Couldn't load ${label} products`;
+                ref.status.textContent = `Couldn't load ${label} products`;
 
                 ProductCarousel.updateGroup(ref);
             });

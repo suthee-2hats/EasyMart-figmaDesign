@@ -5,6 +5,12 @@ const createProductCard = (product) => {
     const article = document.createElement("article");
     article.className = "product-card";
 
+    // Exposed as data attributes so the filter can read values off the DOM
+    // instead of keeping a second copy of every product
+    article.dataset.price = Number(product.price) || 0;
+    article.dataset.discount = Number(product.discountPercentage) || 0;
+    article.dataset.rating = Number(product.rating) || 0;
+
     const image = document.createElement("div");
     image.className = "product-card__image";
 

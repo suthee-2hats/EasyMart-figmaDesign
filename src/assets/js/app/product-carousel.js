@@ -1,15 +1,22 @@
 // Builds one category group - its own heading, prev/next arrows and scrolling
 // card row - and keeps that row positioned within its own limits
+
+// Filtered-out cards are display:none, so they must not be counted or measured
+const VISIBLE_CARD = ".product-card:not(.product-card--loading):not(.is-filtered)";
+
+const getVisibleCards = (row) => row.querySelectorAll(VISIBLE_CARD);
+
 const measure = (row) => {
-    // Measured, not hardcoded, because the card is fluid across breakpoints
-    const card = row.querySelector(".product-card");
+    // Measured, not hardcoded, because the card is fluid across breakpoints.
+    // A visible card is measured because a filtered one reports a width of 0.
+    const card = row.querySelector(VISIBLE_CARD);
     const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
 
     return { cardWidth: card ? card.offsetWidth : 0, gap };
 };
 
 const getBounds = (ref) => {
-    const cards = ref.track.querySelectorAll(".product-card:not(.product-card--loading)");
+    const cards = getVisibleCards(ref.track);
 
     if (!cards.length) {
         return null;
@@ -33,6 +40,10 @@ const updateGroup = (ref) => {
     if (!bounds) {
         ref.previous.disabled = true;
         ref.next.disabled = true;
+
+        // Nothing visible left to scroll, so drop any leftover offset
+        ref.track.style.transform = "translateX(0)";
+
         return;
     }
 
@@ -113,7 +124,16 @@ const createGroup = (label) => {
     group.appendChild(header);
     group.appendChild(viewport);
 
-    return { group, viewport, track, previous, next };
+    // Per-group live region, so each category announces itself without
+    // overwriting the message belonging to another group
+    const status = document.createElement("span");
+    status.className = "sr-only product-section__group-status";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+
+    group.appendChild(status);
+
+    return { group, viewport, track, previous, next, status };
 };
 
 const fillRow = (row, cards) => {

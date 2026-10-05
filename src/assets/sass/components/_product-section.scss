@@ -252,6 +252,12 @@
         }
     }
 
+    // Set by the filter when a card fails the active filters. Kept in CSS so
+    // the filter only toggles a class and never writes an inline style.
+    &.is-filtered {
+        display: none;
+    }
+
     // Placeholder shown while a category is being fetched
     &--loading {
         pointer-events: none;
