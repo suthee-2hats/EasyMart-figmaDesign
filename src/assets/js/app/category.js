@@ -138,7 +138,14 @@ if (categoryList) {
         });
 }
 
-// Add scroll listener to category list
+/**
+ * Converts vertical wheel movement into horizontal scrolling for the category
+ * rail. Registered as non-passive because the default vertical scroll has to be
+ * suppressed.
+ *
+ * @param {WheelEvent} event - Native wheel event on the rail.
+ * @returns {void}
+ */
 categoryList.addEventListener(
     "wheel",
     (event) => {

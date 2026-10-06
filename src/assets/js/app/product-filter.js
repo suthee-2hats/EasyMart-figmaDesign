@@ -1,11 +1,25 @@
-// Product filter sidebar. Reads values off the rendered cards via their
-// data-price/data-discount/data-rating attributes and marks non-matching cards
-// as .is-filtered, then tells the carousel the visible count has changed.
+/**
+ * @file Product filter sidebar.
+ *
+ * Reads filter values straight off the rendered cards through their
+ * data-price/data-discount/data-rating attributes, marks non-matching cards as
+ * `.is-filtered`, then notifies the carousel that the visible count changed.
+ * No second copy of the product data is kept and no refetch is needed.
+ */
+
+/** @type {HTMLFormElement|null} */
 const productFilterForm = document.querySelector("#product-filter-form");
+
+/** @type {HTMLElement|null} */
 const productFilterSection = document.querySelector(".product-section");
 
 if (productFilterForm && productFilterSection) {
-    // Read once at startup; the cards live inside groups appended later
+    /**
+     * Inclusive lower bound per radio value. Read once at startup; the cards
+     * themselves live inside groups appended after this point.
+     *
+     * @type {Record<string, [number, number]>}
+     */
     const PRICE_RANGES = {
         "0-100": [0, 100],
         "100-500": [100, 500],
@@ -13,13 +27,26 @@ if (productFilterForm && productFilterSection) {
         "1000-plus": [1000, Infinity]
     };
 
+    /**
+     * Reads the checked value for one filter group.
+     *
+     * @param {string} name - Radio group name, e.g. `"price"`.
+     * @returns {string} The checked value, or `"all"` when nothing is checked.
+     */
     const getFilterValue = (name) => {
         const selected = productFilterForm.querySelector(`input[name="${name}"]:checked`);
 
         return selected ? selected.value : "all";
     };
 
-    // Upper bound is exclusive, matching how the labels read ("$100 - $500")
+    /**
+     * Tests a price against the selected band. The upper bound is exclusive,
+     * matching how the labels read ("$100 - $500").
+     *
+     * @param {number} price - Price taken from the card's data attribute.
+     * @param {string} filter - Selected radio value.
+     * @returns {boolean} True when the price falls inside the band.
+     */
     const matchesPrice = (price, filter) => {
         if (filter === "all") {
             return true;
@@ -34,7 +61,13 @@ if (productFilterForm && productFilterSection) {
         return price >= range[0] && price < range[1];
     };
 
-    // "50% and above" / "4 stars and above" style thresholds
+    /**
+     * Tests a value against a "50% and above" / "4 stars and above" threshold.
+     *
+     * @param {number} value - Value taken from the card's data attribute.
+     * @param {string} filter - Selected radio value.
+     * @returns {boolean} True when the value reaches the threshold.
+     */
     const matchesThreshold = (value, filter) => {
         if (filter === "all") {
             return true;
@@ -49,9 +82,16 @@ if (productFilterForm && productFilterSection) {
         return value >= minimum;
     };
 
-    // Each group carries its own live region, so one category's count is
-    // never overwritten by another. Groups without real cards are left alone
-    // so a load-failure or empty-category message survives filtering.
+    /**
+     * Writes a result count into each group's own live region.
+     *
+     * Counts are read back from the classes just applied rather than being
+     * passed in, so one category's message is never overwritten by another's.
+     * Groups without real cards are skipped, which leaves a load-failure or
+     * empty-category message intact.
+     *
+     * @returns {void}
+     */
     const announce = () => {
         productFilterSection
             .querySelectorAll(".product-section__group")
@@ -85,17 +125,23 @@ if (productFilterForm && productFilterSection) {
             });
     };
 
+    /**
+     * Applies every active filter to all rendered cards, announces the new
+     * counts and notifies the carousel.
+     *
+     * Every filter must pass. Skeletons are skipped because they carry no data
+     * attributes, which would report each one as a mismatch.
+     *
+     * @returns {void}
+     */
     const applyFilters = () => {
         const priceFilter = getFilterValue("price");
         const discountFilter = getFilterValue("discount");
         const ratingFilter = getFilterValue("rating");
 
-        // Skeletons are excluded: they have no data attributes, so filtering
-        // them would report every one as a mismatch
         const cards = productFilterSection.querySelectorAll(".product-card:not(.product-card--loading)");
 
         cards.forEach((card) => {
-            // Every filter must pass
             const shouldShow =
                 matchesPrice(Number(card.dataset.price) || 0, priceFilter) &&
                 matchesThreshold(Number(card.dataset.discount) || 0, discountFilter) &&
@@ -104,14 +150,18 @@ if (productFilterForm && productFilterSection) {
             card.classList.toggle("is-filtered", !shouldShow);
         });
 
-        // Reads the classes just applied, so each group reports its own count
         announce();
 
-        // Fired after the class changes, so the carousel measures the new state
         document.dispatchEvent(new CustomEvent("products-filtered"));
     };
 
-    // One delegated listener covers every radio, so new groups need no wiring
+    /**
+     * A single delegated listener covers every radio, so filters added later
+     * need no extra wiring.
+     *
+     * @param {Event} event - Change event bubbling up from a radio.
+     * @returns {void}
+     */
     productFilterForm.addEventListener("change", (event) => {
         if (!event.target.matches('input[type="radio"]')) {
             return;
@@ -120,12 +170,22 @@ if (productFilterForm && productFilterSection) {
         applyFilters();
     });
 
+    /**
+     * Reapplies the filters after a reset.
+     *
+     * The reset event fires before the browser restores the default checked
+     * radio, so the read is deferred by one frame.
+     *
+     * @returns {void}
+     */
     productFilterForm.addEventListener("reset", () => {
-        // reset fires before the browser restores the default checked radio,
-        // so wait a frame before reading values back
         requestAnimationFrame(applyFilters);
     });
 
-    // Reapply the active filters to each category as it loads
+    /**
+     * Keeps the active selection applied to each category as it loads.
+     *
+     * @returns {void}
+     */
     document.addEventListener("products-rendered", applyFilters);
 }

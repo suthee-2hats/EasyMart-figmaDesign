@@ -1,12 +1,32 @@
-// Renders a single product card, plus the placeholder shown while a category loads
+/**
+ * @file Product card markup.
+ *
+ * Renders a single product card, plus the placeholder shown while a category
+ * loads.
+ */
+
+/**
+ * Formats a numeric price as a currency string.
+ *
+ * @param {number|string} value - Raw price from the API.
+ * @returns {string} Formatted price, e.g. `"$12.99"`.
+ */
 const formatPrice = (value) => `$${Number(value).toFixed(2)}`;
 
+/**
+ * Builds one product card.
+ *
+ * @param {object} product - Product object from the API.
+ * @returns {HTMLElement} The rendered `<article>` element.
+ */
 const createProductCard = (product) => {
     const article = document.createElement("article");
     article.className = "product-card";
 
-    // Exposed as data attributes so the filter can read values off the DOM
-    // instead of keeping a second copy of every product
+    /**
+     * Exposed as data attributes so the filter can read values off the DOM
+     * instead of keeping a second copy of every product.
+     */
     article.dataset.price = Number(product.price) || 0;
     article.dataset.discount = Number(product.discountPercentage) || 0;
     article.dataset.rating = Number(product.rating) || 0;
@@ -27,7 +47,11 @@ const createProductCard = (product) => {
     const priceAndStock = document.createElement("div");
     priceAndStock.className = "product-card__priceAndStock";
 
-    // The card design has a small descriptor line; the API exposes brand here
+    /**
+     * The card design has a small descriptor line; the API exposes brand here.
+     *
+     * @type {HTMLElement}
+     */
     const pricePerLb = document.createElement("div");
     pricePerLb.className = "product-card__pricePerLb";
 
@@ -42,7 +66,11 @@ const createProductCard = (product) => {
     currentPrice.textContent = formatPrice(product.price || 0);
     price.appendChild(currentPrice);
 
-    // Struck-through figure only means something when the product is discounted
+    /**
+     * Struck-through figure only means something when the product is discounted.
+     *
+     * @type {number}
+     */
     const discount = Number(product.discountPercentage) || 0;
 
     if (discount > 0 && product.price) {
@@ -80,6 +108,14 @@ const createProductCard = (product) => {
     return article;
 };
 
+/**
+ * Builds the placeholder shown while a category is still loading.
+ *
+ * Marked `aria-hidden` because it carries no information, and excluded from
+ * filtering by its `.product-card--loading` class.
+ *
+ * @returns {HTMLElement} The skeleton `<article>` element.
+ */
 const createLoadingCard = () => {
     const article = document.createElement("article");
     article.className = "product-card product-card--loading";
@@ -101,6 +137,12 @@ const createLoadingCard = () => {
     return article;
 };
 
+/**
+ * Public card factory, namespaced as a `window` global because the bundle
+ * concatenates every file into one shared top-level scope.
+ *
+ * @type {{create: typeof createProductCard, createSkeleton: typeof createLoadingCard}}
+ */
 const ProductCard = {
     create: createProductCard,
     createSkeleton: createLoadingCard
