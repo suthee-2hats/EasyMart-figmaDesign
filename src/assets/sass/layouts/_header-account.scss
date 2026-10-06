@@ -66,14 +66,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: transparent;
     gap: 8px;
 
-   width: 124px;
-   height: 42px;
+    width: 124px;
+    height: 42px;
     padding: 0 15px;
 
-    // Matches .header-cart, so the row tightens on the search field
-    // rather than crushing the button
     flex-shrink: 0;
 
     border: 1px solid var(--c-primary);
@@ -84,9 +83,43 @@
 
     text-decoration: none;
 
+    &:hover {
+        background-color: #d94fb3;
+
+        span {
+            color: #fff;
+        }
+
+        text-decoration: none;
+    }
+
+    // Logged-in state
+    &.is-logged-in {
+        width: auto;
+        height: auto;
+        padding: 0;
+
+        border: 0;
+        border-radius: 0;
+
+        background-color: transparent;
+
+        &:hover {
+            background-color: transparent;
+
+            span {
+                color: var(--c-black);
+            }
+        }
+
+        img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
 }
-
-
 /* ================================
    Tablet
    ================================ */

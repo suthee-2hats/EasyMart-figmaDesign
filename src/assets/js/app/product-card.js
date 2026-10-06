@@ -31,7 +31,8 @@ const createProductCard = (product) => {
     article.dataset.discount = Number(product.discountPercentage) || 0;
     article.dataset.rating = Number(product.rating) || 0;
 
-    const image = document.createElement("div");
+    const image = document.createElement("a");
+    image.href = product.url || "#";
     image.className = "product-card__image";
 
     const img = document.createElement("img");
@@ -40,10 +41,15 @@ const createProductCard = (product) => {
     img.loading = "lazy";
     image.appendChild(img);
 
+    const nameLink = document.createElement("a");
+    nameLink.className = "product-card__name-link";
+    nameLink.href = product.url || "#";
+    
     const name = document.createElement("h3");
     name.className = "product-card__name";
     name.textContent = product.title || "Product";
-
+    
+    nameLink.appendChild(name);
     const priceAndStock = document.createElement("div");
     priceAndStock.className = "product-card__priceAndStock";
 
@@ -102,7 +108,7 @@ const createProductCard = (product) => {
     priceAndStock.appendChild(stock);
 
     article.appendChild(image);
-    article.appendChild(name);
+    article.appendChild(nameLink);
     article.appendChild(priceAndStock);
 
     return article;
